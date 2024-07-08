@@ -1,13 +1,21 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
 const axios = require('axios');
-const client = new Client({
-    authStrategy: new LocalAuth()
+
+const client = new Client();
+
+client.on('qr', (qr) => {
+    qrcode.generate(qr, { small: true });
+});
+
+client.on('ready', () => {
+    console.log('Client is ready!');
 });
 
 client.on('message', async message => {
-    const incomingMsg = message.body.toLowerCase();
-    let engine, query;
+    const incomingMsg = message.body;
 
+    let engine, query;
     if (incomingMsg.startsWith('/gpt')) {
         engine = 'gpt4';
         query = incomingMsg.split('/gpt ')[1];
@@ -35,23 +43,15 @@ client.on('message', async message => {
     }
 
     const apiUrl = `https://ai.galihmrd.my.id/bard_ai?query=${encodeURIComponent(query)}&engine=${engine}`;
-    console.log(`Sending request to: ${apiUrl}`);
 
     try {
         const response = await axios.get(apiUrl);
-        client.sendMessage(message.from, response.data.result);
+        const reply = response.data.reply;
+        client.sendMessage(message.from, reply);
     } catch (error) {
-        console.error('Error fetching response:', error);
+        console.error(error);
         client.sendMessage(message.from, 'Terjadi kesalahan saat memproses permintaan Anda.');
     }
-});
-
-client.on('qr', qr => {
-    console.log('QR RECEIVED', qr);
-});
-
-client.on('ready', () => {
-    console.log('Client is ready!');
 });
 
 client.initialize();

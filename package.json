@@ -1,14 +1,14 @@
 {
-    "name": "whatsappbot",
-    "version": "1.0.0",
-    "description": "WhatsApp bot using whatsapp-web.js",
-    "main": "bot.js",
-    "scripts": {
-      "start": "node bot.js"
-    },
-    "dependencies": {
-      "whatsapp-web.js": "^1.17.1",
-      "axios": "^0.27.2"
-    }
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "^1.14.1",
+    "axios": "^0.21.1",
+    "qrcode-terminal": "^0.12.0"
   }
-  
+}

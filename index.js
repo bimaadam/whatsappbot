@@ -18,10 +18,10 @@ venom
         undefined,
         {
             folderSession: sessionDir,
-            headless: true,
+            headless: 'new', // Menggunakan headless mode baru
             puppeteerOptions: {
                 args: ['--no-sandbox', '--disable-setuid-sandbox'],
-                executablePath: '/usr/bin/chromium-browser', // Path ke Chromium yang sudah ada di Vercel
+                executablePath: '/usr/bin/chromium-browser', // Path ke Chromium yang sudah ada di sistem Anda
             },
             useChrome: false, // Menggunakan Chromium build-in
             multidevice: true // Untuk versi multidevice, gunakan true (default: true)
@@ -38,17 +38,18 @@ function start(client) {
 
         // Pesan selamat datang saat pengguna mengirimkan "/start"
         if (incomingMsg === '/start') {
-            const welcomeMessage = `Selamat datang! Bot ini adalah buatan Bima Adam Nugraha. Gunakan perintah berikut untuk berinteraksi dengan bot:
+            const welcomeMessage = `Selamat datang! Bot ini adalah buatan Bima Adam & Ririn Setiawati. Gunakan perintah berikut untuk berinteraksi dengan bot:
 - /gpt [pertanyaan]: untuk menggunakan GPT-4
 - /gemini [pertanyaan]: untuk menggunakan Gemini
 - /advance [pertanyaan]: untuk menggunakan Gemini-Advance
 - /turbo [pertanyaan]: untuk menggunakan GPT-Turbo
 - /gpt3.5 [pertanyaan]: untuk menggunakan GPT-3.5
-- /simi [pertanyaan]: untuk menggunakan Simi
+- /simi [pertanyaan]: untuk menggunakan Simi (Untuk orang dewasa)
 - /bing [pertanyaan]: untuk menggunakan Bing-Balanced
 - /cuaca [nama kota]: untuk mendapatkan informasi cuaca
 
-Silakan coba perintah-perintah tersebut dan bot akan merespon sesuai dengan engine yang Anda pilih.`;
+Silakan coba perintah-perintah tersebut dan bot akan merespon sesuai dengan AI yang Anda pilih.
+*Jangan lupa chat owner bot ai ini ya* wa.me/+6289663164143`;
             await client.sendText(message.from, welcomeMessage);
             return;
         }
@@ -82,7 +83,7 @@ Silakan coba perintah-perintah tersebut dan bot akan merespon sesuai dengan engi
             getWeather(client, message.from, city);
             return;
         } else {
-            client.sendText(message.from, "Perintah tidak dikenali. Gunakan /gpt, /gemini, /advance, /turbo, /gpt3.5, /simi, /bing, atau /cuaca untuk mendapatkan informasi.");
+            client.sendText(message.from, "Perintah tidak dikenali. Gunakan /start, /gpt, /gemini, /advance, /turbo, /gpt3.5, /simi, /bing, atau /cuaca untuk mendapatkan informasi.");
             return;
         }
 
@@ -143,4 +144,3 @@ Kecepatan angin: ${windSpeed} km/h`;
         client.sendText(from, errorMessage);
     }
 }
-
